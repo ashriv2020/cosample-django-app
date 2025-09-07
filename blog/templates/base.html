@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DotNetAbhishek Blog App</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'post_list' %}">DotNetAbhishek</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'post_list' %}"><i class="bi bi-house-door"></i> Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://github.com/ashriv2020/cosample-django-app" target="_blank"><i class="bi bi-github"></i> Source Code</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'post_create' %}"><i class="bi bi-plus-square"></i> Add New Post</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i> Logout</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-lg-8 col-md-7">
+                    {% block content %}{% endblock %}
+                </div>
+                <div class="col-lg-4 col-md-5">
+                    <div class="card mb-4">
+                        <div class="card-body text-center">
+                            <img src="https://avatars.githubusercontent.com/u/50742393?v=4" alt="Author Avatar" class="rounded-circle mb-3" width="100" height="100">
+                            <h5 class="card-title">DotNetAbhishek</h5>
+                            <p class="card-text">India<br><a href="http://dotnetabhishek.com/" target="_blank">dotnetabhishek.com</a></p>
+                            <a href="https://github.com/ashriv2020" target="_blank" class="btn btn-outline-dark btn-sm">GitHub Profile</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">Categories</h6>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item p-1"><a href="{% url 'post_list' %}" class="text-decoration-none fw-bold">All Categories</a></li>
+                                {% for category in categories %}
+                                    <li class="list-group-item p-1">
+                                        <a href="{% url 'posts_by_category' category.id %}" class="text-decoration-none{% if selected_category and selected_category.id == category.id %} fw-bold text-primary{% endif %}">{{ category.name }}</a>
+                                    </li>
+                                {% empty %}
+                                    <li class="list-group-item p-1">No categories</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-cVKIPhGWiC2d2QfzNXt6QpztNJ2gka6hZ6f5DQ0n5l5L5n8v6w5p6Q5p6Q5p6Q5p" crossorigin="anonymous"></script>
+</body>
+</html>

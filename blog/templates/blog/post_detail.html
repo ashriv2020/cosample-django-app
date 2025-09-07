@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="card mb-4">
+    <div class="card-body">
+      <h2 class="card-title mb-2">{{ post.title }}</h2>
+      <div class="mb-2">
+        <span class="text-muted">By {{ post.author.username }}</span>
+        <span class="text-muted ms-3"><i class="bi bi-calendar"></i> {{ post.created_at|date:'F d Y' }}</span>
+        {% if post.category %}
+          <span class="badge bg-secondary ms-3"><i class="bi bi-tag"></i> {{ post.category.name }}</span>
+        {% endif %}
+      </div>
+      <div class="mb-4">{{ post.content }}</div>
+      <div class="mt-3">
+        {% if user == post.author %}
+          <a href="{% url 'post_edit' post.slug %}" class="btn btn-warning me-2"><i class="bi bi-pencil-square"></i> Edit</a>
+          <a href="{% url 'post_delete' post.slug %}" class="btn btn-danger me-2"><i class="bi bi-trash"></i> Delete</a>
+        {% endif %}
+  <a href="{% url 'post_list' %}" class="btn btn-outline-secondary me-2"><i class="bi bi-arrow-left-circle"></i> Back to list</a>
+        <!-- Share Buttons -->
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="btn btn-outline-primary me-2"><i class="bi bi-facebook"></i> Share</a>
+  <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ post.title }}" target="_blank" class="btn btn-outline-info me-2"><i class="bi bi-twitter"></i> Share</a>
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ post.title }}" target="_blank" class="btn btn-outline-secondary"><i class="bi bi-linkedin"></i> Share</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}
